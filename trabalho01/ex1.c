@@ -1,38 +1,45 @@
+/*  f1 = 2
+    f2 = 1
+    fi = 2*f(i-1) + g(i-2) i>3
+    ----------------------
+    g1 = 1
+    g2 = 2
+    gi = g(i-1) + 3*f(i-2) i>3
+*/
 #include<stdio.h>
 #include<stdlib.h>
-int f(int);
-int g(int);
-void func1(int, int*, int*);
+int f(int);//funcao f
+int g(int);//funcao g
+void func1(int, int*, int*);//essa função recebedosi ponteirospara retornar g(i) e f(i)
 int func2(int);
-
+int func3(int);
+void printmatriz(int*, int);//funcao recebe o ponteiro da matriz, e um valor para printar 2 ou 3 linhas
 
 int main(int argc, char *argv[]){
-    int i, Fi, Gi;
+    int i, fi, gi;
     int n;
-    while (1){
-    printf("Digite i(menor que 1 para parar): ");
-    scanf("%d", &i);
-    
-    if(i<1) 
-        break;
+    int mat[3][7];
+    int *ptrmat;
+    ptrmat = &mat[0][0];
 
-    func1(i, &Fi, &Gi);
-
-    printf("Fi: %d \nGi: %d", Fi,Gi);
-    printf("\n-------\n");
+    printf("\n-----Func1-----\n");
+    for(i=0; i<7; i++){//for para aplicar 7 valores a i
+        func1((i+1), &fi, &gi);//(i+0) pq i na função não pode ser iniciado em zero
+        *(ptrmat+i) = fi;//alcula f(i) e retorna para a primeira linha da matriz
+        *(ptrmat+i+7) = gi;//calcula g(i) e retorna para a segunda linha da matriz(+7)
     }
-    while (1){
-    printf("Digite n(menor que 2 para parar): ");
+
+    printmatriz(ptrmat, 2);
+
+    printf("\n-----Func2-----\n");
+    printf("n: ");
     scanf("%d", &n);
+    printf("%d", func2(n));
     
-    if(n<3) 
-        break;
-
-    
-
-    printf("Func2: %d", func2(n));
-    printf("\n-------\n");
-    }
+    printf("\n-----Func3-----\n");
+    for(i=0; i<7; i++)
+        *(ptrmat+i+14) = func3(i+1);
+    printmatriz(ptrmat, 3);
         return 0;
 }
 
@@ -53,21 +60,45 @@ int g(int i){
         return g(i-1) + 3*f(i-2);    
 }
 void func1(int i, int *ptr1, int *ptr2){
-/*  f1 = 2
-    f2 = 1
-    fi = 2*f(i-1) + g(i-2) i>3
-    ----------------------
-    g1 = 1
-    g2 = 2
-    gi = g(i-1) + 3*f(i-2) i>3
-*/
 
     *ptr1 = f(i);
     *ptr2 = g(i);
 }
 int func2(int n){
     if(n>2)
-        return f(n-2)+g(n+200);
+        return f(n-2)+g(n+20);
     else
         return 0;
+}
+int func3(int i){
+    int fi, gi;
+
+    func1(i, &fi, &gi);
+
+    return fi + gi;
+}
+void printmatriz(int *ptr, int linhas){
+    int i;
+    
+    if(linhas==2){
+        for(i=0; i<7; i++){//escrever a primeira linha
+            printf("%d  ", *(ptr+i));
+        }
+        printf("\n");//pular linha
+        for(i=0; i<7; i++){//escrever a segunda linha
+            printf("%d  ", *(ptr+i+7));
+        }
+    }else if(linhas==3){
+        for(i=0; i<7; i++){//escrever a primeira linha
+            printf("%d  ", *(ptr+i));
+        }
+        printf("\n");//pular linha
+        for(i=0; i<7; i++){//escrever a segunda linha
+            printf("%d  ", *(ptr+i+7));
+        }
+        printf("\n");
+        for(i=0; i<7; i++){//escrever a terceira linha
+            printf("%d  ", *(ptr+i+14));
+        }
+    }
 }
