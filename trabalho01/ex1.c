@@ -43,7 +43,7 @@ int main(int argc, char *argv[]){
         return 0;
 }
 
-int f(int i){
+int f(int i){// funcao f
     if(i==1)
         return 2;
     else if(i==2)
@@ -51,7 +51,7 @@ int f(int i){
     else
         return 2*f(i-1) + g(i-2);    
 }
-int g(int i){
+int g(int i){// funcao g
     if(i==1)
         return 1;
     else if(i==2)
