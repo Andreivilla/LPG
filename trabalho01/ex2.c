@@ -49,8 +49,8 @@ void func(int *ptr){
                 }
             }
             
-            if(*(ptr+i+1) == 0 && (i+1)%(coluna-1) != 0){//verifica se o proximo item da linha é igual a zero && e se ele nao esta no ultimo item
-                if(i%coluna != 0 || i == 0){//verifica se mão esta na primeira coluna
+            if(*(ptr+i+1) == 0 && (i)%(coluna-1+i) != 0){//verifica se o proximo item da linha é igual a zero && e se ele nao esta no ultimo item
+                if(i%coluna != 0 || i == 0){//verifica se não esta na primeira coluna
                     vl = verifica_linha((ptr+i));//ferifica anteriores da linha
                 }else{
                     vl = 0;
