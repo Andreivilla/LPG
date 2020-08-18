@@ -1,11 +1,3 @@
-/*  f1 = 2
-    f2 = 1
-    fi = 2*f(i-1) + g(i-2) i>3
-    ----------------------
-    g1 = 1
-    g2 = 2
-    gi = g(i-1) + 3*f(i-2) i>3
-*/
 #include<stdio.h>
 #include<stdlib.h>
 int f(int);//funcao f
@@ -33,12 +25,12 @@ int main(int argc, char *argv[]){
 
     printf("\n-----Func2-----\n");
     printf("n: ");
-    scanf("%d", &n);
+    scanf("%d", &n);//recebe n e aplica na funcao 2
     printf("%d", func2(n));
     
     printf("\n-----Func3-----\n");
     for(i=0; i<7; i++)
-        *(ptrmat+i+14) = func3(i+1);
+        *(ptrmat+i+14) = func3(i+1);// aplica a funcao 3 na 3a linha da matriz
     printmatriz(ptrmat, 3);
         return 0;
 }
@@ -66,7 +58,7 @@ void func1(int i, int *ptr1, int *ptr2){
 }
 int func2(int n){
     if(n>2)
-        return f(n-2)+g(n+20);
+        return f(n-2)+g(n+20);//na formula o valor de incremento de n é +20 porem isso é mt longo para ser calculado então apliquei 20
     else
         return 0;
 }
