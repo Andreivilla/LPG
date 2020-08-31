@@ -1,0 +1,4 @@
+Abra um arquivo texto, calcule e escreva o numero 
+de caracteres, o número de linhas e o numero de palavras  
+neste arquivo. Escreva também quantas vezes cada letra 
+ocorre no arquivo
