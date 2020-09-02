@@ -10,7 +10,6 @@ typedef struct{
     float saldo_cartao;
     float saldo_ivestimento;
 }conta;
-
 void ler_contas(conta *a){
     int i;
     for(i=0; i<num_contas; i++){
@@ -43,5 +42,30 @@ void modif_contas(conta *a){
         scanf("%f", &a[i].saldo_cartao);
         printf("Saldo invetimento: ");
         scanf("%f", &a[i].saldo_ivestimento);
+    }
+}
+void descarregar(conta *a){
+    FILE *file = fopen("contas.bin", "rb");
+    fread(a, sizeof(conta), num_contas, file);
+    fclose(file);
+}
+void carregar(conta *a){
+    int i;
+    FILE *file = fopen("contas.bin", "wb");
+    for(i=0; i<num_contas; i++)
+        fwrite(&a[i], sizeof(conta), 1, file);
+    fclose(file);
+}
+int achar_conta(conta *a){
+    int i;
+    int nconta;
+    while(1){
+        printf("Numero da conta: ");
+        scanf("%d", &nconta);
+        for(i=0; i<num_contas; i++){
+            if(a[i].numero_da_conta == nconta)
+                return i;                
+        }
+        printf("-Numero de conta invalido-\n");       
     }
 }

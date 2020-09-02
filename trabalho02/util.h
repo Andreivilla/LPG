@@ -9,3 +9,6 @@ typedef struct{
 }conta;
 void ler_contas(conta*);
 void modif_contas(conta*);
+void descarregar(conta*);
+void carregar(conta*);
+int achar_conta(conta*);

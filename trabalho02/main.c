@@ -16,12 +16,14 @@ ocliente deverá ser cadastrado no arquivo limite_estourado*/
 #include<stdlib.h>
 #include"util.h"
 #define num_contas 2
-void descarregar(conta*);
-void carregar(conta *a);
 int main(int argc, char *argv[]){
-    //FILE *f;
+    FILE *f;
     conta contas[num_contas];
-    char escolha; 
+    char escolha;
+    float valor_saque;
+    int nconta;
+    
+
 
     printf("Oque voce deseja fzr:\n");
     printf("1- Modificar todas as contas\n2- listar todas as contas\n");
@@ -38,7 +40,26 @@ int main(int argc, char *argv[]){
         case '2':
             descarregar(contas);
             ler_contas(contas);
-        case 's':// para saque 
+            break;
+        case 's':// para saque
+            descarregar(contas);
+            nconta = achar_conta(contas);
+            while (1){            
+                printf("Valor do saque: ");
+                scanf("%f", &valor_saque);
+                if(valor_saque < contas[nconta].saldo_corrente){
+                    contas[nconta].saldo_corrente -= valor_saque;
+                    printf("Voce sacou %.2f, seu saldo e %.2f", valor_saque, contas[nconta].saldo_corrente);
+                    break;
+                }else{
+                    printf("O valor do saque e mt alto para seu saldo de conta\n");
+                    printf("O seu saldo e: %.2f\n", contas[nconta].saldo_corrente);
+                }
+            }
+            f = fopen("movimento.txt", "a");
+            fprintf(f,"Conta: %d ---- Sacou: %f\n", contas[nconta].numero_da_conta, valor_saque);
+            fclose(f);
+            carregar(contas);
         break;
     }
 
@@ -46,16 +67,4 @@ int main(int argc, char *argv[]){
 
 
     return 0;
-}
-void descarregar(conta *a){
-    FILE *file = fopen("contas.bin", "rb");
-    fread(a, sizeof(conta), num_contas, file);
-    fclose(file);
-}
-void carregar(conta *a){
-    int i;
-    FILE *file = fopen("contas.bin", "wb");
-    for(i=0; i<num_contas; i++)
-        fwrite(&a[i], sizeof(conta), 1, file);
-    fclose(file);
 }
