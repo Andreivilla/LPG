@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<ctype.h>
 #define num_contas 2
 typedef struct{
     int numero_da_conta;
@@ -69,51 +70,46 @@ int achar_conta(conta *a){
         printf("-Numero de conta invalido-\n");       
     }
 }
-/*void registro(conta a, char tipo){
-        switch (escolha){
-        case '1':
-            descarregar(contas);
-            modif_contas(contas);
-            carregar(contas);
-            break;
-        case '2':
-            descarregar(contas);
-            ler_contas(contas);
-            break;
-        case 's':// para saque
-
-            f = fopen("movimento.txt", "a");
-            fprintf(f,"Conta: %d ---- Sacou: %f\n", contas[nconta].numero_da_conta, valor);
-            fclose(f);
-            carregar(contas);
+void registro(conta a, char tipo, float valor){
+    FILE *f = fopen("movimento.txt", "a");
+    switch (tipo){
+        case 's':        
+            fprintf(f,"Conta: %d ---- Sacou: %f\n", a.numero_da_conta, valor);
         break;
         case 'd':
-
-            f = fopen("movimento.txt", "a");
-            fprintf(f,"Conta: %d ---- Depositou: %f\n", contas[nconta].numero_da_conta, valor);
-            fclose(f);
-            carregar(contas);
+            fprintf(f,"Conta: %d ---- Depositou: %f\n", a.numero_da_conta, valor);
         break;
         case 'c':
-
-            f = fopen("movimento.txt", "a");
-            fprintf(f,"Conta: %d ---- Usou credito: %f\n", contas[nconta].numero_da_conta, valor);
-            fclose(f);
-            carregar(contas);
+            fprintf(f,"Conta: %d ---- Usou credito: %f\n", a.numero_da_conta, valor);
         break;
         case 'i':
-
-            f = fopen("movimento.txt", "a");
-            fprintf(f,"Conta: %d ---- Investiu: %f\n", contas[nconta].numero_da_conta, valor);
-            fclose(f);
-            carregar(contas);
+            fprintf(f,"Conta: %d ---- Investiu: %f\n", a.numero_da_conta, valor);
         break;
         case 'e':
-
-            f = fopen("movimento.txt", "a");
-            fprintf(f,"Conta: %d ---- Emprestou: %f\n", contas[nconta].numero_da_conta, valor);
-            fclose(f);
-            carregar(contas);
+            fprintf(f,"Conta: %d ---- Emprestou: %f\n", a.numero_da_conta, valor);
         break;
     }
-}*/
+    fclose(f);
+}
+char menu(){
+    char c;
+    char *opicoes = "012sSdDcCiIeE";
+    int i;
+    printf("-------- Menu --------\n");
+    printf("1- Modificar todas as contas\n");
+    printf("2- listar todas as contas\n");
+    printf("s- Realizar saque\n");
+    printf("d- Fazer um deposito\n");
+    printf("c- credito via cartao\n");
+    printf("i- Realizar um investimento\n");
+    printf("e- pedir emprestimo\n");
+    printf("Oque voce deseja fzr:\n");
+    while(1){
+        scanf("%c", &c);fflush(stdin);
+        for (i=0; i<13; i++){
+            if(opicoes[i] == c)
+                return tolower(c);
+        }
+        printf("Opicao invalida\n");
+    }
+}

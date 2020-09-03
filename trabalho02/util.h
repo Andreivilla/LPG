@@ -12,3 +12,5 @@ void modif_contas(conta*);
 void descarregar(conta*);
 void carregar(conta*);
 int achar_conta(conta*);
+void registro(conta, char, float);
+char menu();
