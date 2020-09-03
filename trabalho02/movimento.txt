@@ -1,1 +1,3 @@
 Conta: 2 ---- Sacou: 66.000000
+Conta: 2 ---- Depositou: 88.000000
+Conta: 2 ---- Sacou: 10.000000

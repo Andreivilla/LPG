@@ -1,17 +1,3 @@
-/*Movimento:contém os registrosde movimentações feitas 
-(depósitos ou saques) 
-emcontas bancárias. Cada registro armazena as seguintes informações sobre 
-uma movimentação: 
-número da conta movimentada, 
-tipo da movimentação 
-(um caractere, podendo ser ‘S’ para saque ou
-‘D’ para depósito, 
-ou‘C’ para credito via cartão de credito, 
-ou ‘I’ para investimento,
-ou ’E’para empréstimo) 
-e o respectivo valor damovimentação (valor real).O empréstimo sóserá concedido 
-ao cliente se ele tiver ainda limite disponível.Se não tiver limite disponível, 
-ocliente deverá ser cadastrado no arquivo limite_estourado*/
 #include<stdio.h>
 #include<stdlib.h>
 #include"util.h"
@@ -20,7 +6,7 @@ int main(int argc, char *argv[]){
     FILE *f;
     conta contas[num_contas];
     char escolha;
-    float valor_saque;
+    float valor;
     int nconta;
     
 
@@ -46,10 +32,10 @@ int main(int argc, char *argv[]){
             nconta = achar_conta(contas);
             while (1){            
                 printf("Valor do saque: ");
-                scanf("%f", &valor_saque);
-                if(valor_saque < contas[nconta].saldo_corrente){
-                    contas[nconta].saldo_corrente -= valor_saque;
-                    printf("Voce sacou %.2f, seu saldo e %.2f", valor_saque, contas[nconta].saldo_corrente);
+                scanf("%f", &valor);
+                if(valor < contas[nconta].saldo_corrente){
+                    contas[nconta].saldo_corrente -= valor;
+                    printf("Voce sacou %.2f\nSeu saldo e %.2f", valor, contas[nconta].saldo_corrente);
                     break;
                 }else{
                     printf("O valor do saque e mt alto para seu saldo de conta\n");
@@ -57,7 +43,84 @@ int main(int argc, char *argv[]){
                 }
             }
             f = fopen("movimento.txt", "a");
-            fprintf(f,"Conta: %d ---- Sacou: %f\n", contas[nconta].numero_da_conta, valor_saque);
+            fprintf(f,"Conta: %d ---- Sacou: %f\n", contas[nconta].numero_da_conta, valor);
+            fclose(f);
+            carregar(contas);
+        break;
+        case 'd':
+            descarregar(contas);
+            nconta = achar_conta(contas);
+            printf("Valor do deposito: ");
+            scanf("%f", &valor);
+            contas[nconta].saldo_corrente += valor;
+            printf("Voce depositou %f\nSeu saldo e: %f", valor, contas[nconta].saldo_corrente);
+
+            f = fopen("movimento.txt", "a");
+            fprintf(f,"Conta: %d ---- Depositou: %f\n", contas[nconta].numero_da_conta, valor);
+            fclose(f);
+            carregar(contas);
+        break;
+        case 'c':
+            descarregar(contas);
+            nconta = achar_conta(contas);
+            while(1){
+                printf("Valor do credito usado: ");
+                scanf("%f", &valor);
+                if(valor > contas[nconta].saldo_cartao){
+                    printf("Seu saldo é insuficiente\n");
+                    printf("Seu saldo é: %.2f\n", contas[nconta].saldo_cartao);
+                }else{
+                    contas[nconta].saldo_cartao -= valor;
+                    printf("Vc usou: %.2f\n", valor);
+                    printf("Seu saldo decredito e: %.2f\n", contas[nconta].saldo_cartao);
+                    break;
+                }
+            }
+            f = fopen("movimento.txt", "a");
+            fprintf(f,"Conta: %d ---- Usou credito: %f\n", contas[nconta].numero_da_conta, valor);
+            fclose(f);
+            carregar(contas);
+        break;
+        case 'i':
+            descarregar(contas);
+            nconta = achar_conta(contas);
+
+            while (1){            
+                printf("Seu saldo da conta corrente e: %.2f\n", contas[nconta].saldo_corrente);
+                printf("Quanto deseja investir: ");
+                scanf("%f", &valor);
+                if(valor > contas[nconta].numero_da_conta){
+                    printf("Seu saldo da conta corrente e insuficiente\n");
+                }else{
+                    contas[nconta].saldo_corrente -= valor;
+                    printf("Voce investiu %f\nSeu saldo e %f", valor, contas[nconta].saldo_corrente);
+                    break;
+                }            
+            }
+            f = fopen("movimento.txt", "a");
+            fprintf(f,"Conta: %d ---- Investiu: %f\n", contas[nconta].numero_da_conta, valor);
+            fclose(f);
+            carregar(contas);
+        break;
+        case 'e':
+            descarregar(contas);
+            nconta = achar_conta(contas);
+
+            while (1){            
+                printf("Seu limite para emprestimos e: %.2f\n", contas[nconta].limite_emprestimo);
+                printf("Quanto deseja emprestar: ");
+                scanf("%f", &valor);
+                if(valor > contas[nconta].limite_emprestimo){
+                    printf("Voce não tem limite para esse emprestimo\n");
+                    printf("Seu limite para emprestimos e: %.2f\n", contas[nconta].limite_emprestimo);
+                }else{
+                    contas[nconta].limite_emprestimo -= valor;
+                    printf("Voce emprestou %f\nSeu limite para emprestimos e %f", valor, contas[nconta].limite_emprestimo);
+                    break;
+                }            
+            }
+            f = fopen("movimento.txt", "a");
+            fprintf(f,"Conta: %d ---- Emprestou: %f\n", contas[nconta].numero_da_conta, valor);
             fclose(f);
             carregar(contas);
         break;
