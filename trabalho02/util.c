@@ -1,16 +1,5 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<ctype.h>
+#include"util.h"
 #define num_contas 2
-typedef struct{
-    int numero_da_conta;
-    char nome_do_clinte[10];
-    float saldo_corrente;
-    int tipo_cartao;//(0 –não possui; 1:cartão TIPO1; 2: cartão TIPO2)
-    float limite_emprestimo;
-    float saldo_cartao;
-    float saldo_ivestimento;
-}conta;
 void ler_contas(conta *a){
     int i;
     for(i=0; i<num_contas; i++){
@@ -91,11 +80,17 @@ void registro(conta a, char tipo, float valor){
     }
     fclose(f);
 }
+void limite_estourado(conta a, float v){
+    FILE *f = fopen("limite_estourado.txt", "a");
+    printf("Limite estourado em %f\n", (v - a.limite_emprestimo));
+    fprintf(f,"Conta: %d ---- limite estourado em: %f\n", a.numero_da_conta, (v - a.limite_emprestimo));
+}
 char menu(){
     char c;
     char *opicoes = "012sSdDcCiIeE";
     int i;
     printf("-------- Menu --------\n");
+    printf("0- Fechar programa\n");
     printf("1- Modificar todas as contas\n");
     printf("2- listar todas as contas\n");
     printf("s- Realizar saque\n");
@@ -111,5 +106,18 @@ char menu(){
                 return tolower(c);
         }
         printf("Opicao invalida\n");
+    }
+}
+void ordena_vet(float *a){
+    int i,j;
+    float h;
+    for(i=0; i<num_contas; i++){
+        for (j=i+1 ; j<num_contas; j++){
+            if(a[i] < a[j]){
+                h = a[j];
+                a[j] = a[i];
+                a[i] = h;
+            }
+        }
     }
 }

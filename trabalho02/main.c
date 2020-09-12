@@ -1,28 +1,23 @@
-#include<stdio.h>
-#include<stdlib.h>
 #include"util.h"
 #define num_contas 2
 int main(int argc, char *argv[]){
     conta contas[num_contas];
     char escolha;
     float valor;
-    int nconta;
+    int nconta, i, j, conta_maior_devedor = 0;
+    float vet_investimento[num_contas];
 
-    while(1){
+    while(escolha != '0'){
         escolha = menu();
         descarregar(contas);
         switch (escolha){
             case '1':
-                descarregar(contas);
                 modif_contas(contas);
-                carregar(contas);
             break;
             case '2':
-                descarregar(contas);
                 ler_contas(contas);
             break;
             case 's':// para saque
-                descarregar(contas);
                 nconta = achar_conta(contas);
                 while (1){            
                     printf("Valor do saque: ");
@@ -36,22 +31,15 @@ int main(int argc, char *argv[]){
                         printf("O seu saldo e: %.2f\n", contas[nconta].saldo_corrente);
                     }
                 }
-                registro(contas[nconta], escolha, valor);
-                carregar(contas);
             break;
             case 'd':
-                descarregar(contas);
                 nconta = achar_conta(contas);
                 printf("Valor do deposito: ");
                 scanf("%f", &valor);
                 contas[nconta].saldo_corrente += valor;
                 printf("Voce depositou %f\nSeu saldo e: %f", valor, contas[nconta].saldo_corrente);
-
-                registro(contas[nconta], escolha, valor);
-                carregar(contas);
             break;
             case 'c':
-                descarregar(contas);
                 nconta = achar_conta(contas);
                 while(1){
                     printf("Valor do credito usado: ");
@@ -66,11 +54,8 @@ int main(int argc, char *argv[]){
                         break;
                     }
                 }
-                registro(contas[nconta], escolha, valor);
-                carregar(contas);
             break;
             case 'i':
-                descarregar(contas);
                 nconta = achar_conta(contas);
 
                 while (1){            
@@ -85,11 +70,8 @@ int main(int argc, char *argv[]){
                         break;
                     }            
                 }
-                registro(contas[nconta], escolha, valor);
-                carregar(contas);
             break;
             case 'e':
-                descarregar(contas);
                 nconta = achar_conta(contas);
 
                 while (1){            
@@ -97,23 +79,56 @@ int main(int argc, char *argv[]){
                     printf("Quanto deseja emprestar: ");
                     scanf("%f", &valor);
                     if(valor > contas[nconta].limite_emprestimo){
-                        printf("Voce não tem limite para esse emprestimo\n");
-                        printf("Seu limite para emprestimos e: %.2f\n", contas[nconta].limite_emprestimo);
-                    }else{
-                        contas[nconta].limite_emprestimo -= valor;
-                        contas[nconta].saldo_corrente += valor;
-                        printf("Voce emprestou %.2f\nSeu limite para emprestimos e %.2f\n", valor, contas[nconta].limite_emprestimo);
-                        printf("Saldo da conta corrente: %.2f", contas[nconta].saldo_corrente);
-                        break;
-                    }            
+                        limite_estourado(contas[nconta], valor);
+                    }
+                    contas[nconta].limite_emprestimo -= valor;
+                    contas[nconta].saldo_corrente += valor;
+                    printf("Voce emprestou %.2f\nSeu limite para emprestimos e %.2f\n", valor, contas[nconta].limite_emprestimo);
+                    printf("Saldo da conta corrente: %.2f\n", contas[nconta].saldo_corrente);
+                    
+                    break;
                 }
-                registro(contas[nconta], escolha, valor);
-                carregar(contas);
             break;
             case '0':
                 printf("--------Fechando sistema--------\n");
-                return 0;
             break;
         }
+        if(escolha != 1 && escolha != 2)        
+            registro(contas[nconta], escolha, valor);
+        carregar(contas);
     }
+    //apresentar o(s)cliente(s) que possuemo maior volume de investimento no banco;
+    descarregar(contas);
+    for(i=0; i<num_contas; i++){
+        vet_investimento[i] = contas[i].saldo_ivestimento;
+        ordena_vet(vet_investimento);
+    }
+    ordena_vet(vet_investimento);
+    printf("-----Relacao dos maiores investimentos-----\n");
+    for(i=0; i<num_contas; i++){
+        for(j=0; j<num_contas; j++){
+            if(vet_investimento[i] == contas[j].saldo_ivestimento)
+                printf("Conta %d ---- Investimento: %.2f\n", contas[i].numero_da_conta, contas[i].saldo_ivestimento);
+        }    
+    }
+    //apresentar a relação de clientes que estão com o limite de empréstimo estourado;
+    printf("\n-----limite estourado-----\n");
+    for (i=0; i<num_contas; i++){
+        if(contas[i].limite_emprestimo < 0)
+            printf("conta:%d ---- limite:%.2f\n", contas[i].numero_da_conta, contas[i].limite_emprestimo);
+    }    
+    //apresentaro(s) cliente(s)  que estão com a conta negativa;
+    for (i=0; i<num_contas; i++){
+        if(contas[i].saldo_corrente < 0)
+            printf("conta:%d ---- Saldo da conta corrente:%.2f\n", contas[i].numero_da_conta, contas[i].saldo_corrente);
+    }
+    //apresentar o cliente com o maior saldo devedor no cartão de crédito.
+    for (i = 0; i <num_contas; i++){
+        if(contas[i].saldo_cartao < contas[conta_maior_devedor].saldo_cartao)
+            conta_maior_devedor = i;
+    }
+    printf("Maior saldo negativo do cartao: \n");
+    printf("Conta: %d ---- Saldo: %2.f", contas[i].numero_da_conta, contas[i].saldo_cartao);
+    
+    return 0;
 }

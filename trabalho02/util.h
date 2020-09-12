@@ -1,3 +1,6 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<ctype.h>
 typedef struct{
     int numero_da_conta;
     char nome_do_clinte[10];
@@ -13,4 +16,6 @@ void descarregar(conta*);
 void carregar(conta*);
 int achar_conta(conta*);
 void registro(conta, char, float);
+void limite_estourado(conta, float);
 char menu();
+void ordena_vet(float*);
