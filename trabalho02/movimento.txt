@@ -1,6 +1,0 @@
-Conta: 1----Depositou: 8000.000000
-Conta: 2----Usou credito: 180.000000
-Conta: 1----Sacou: 8000.000000
-Conta: 2----Sacou: 6000.000000
-Conta: 2----Depositou: 7000.000000
-Conta: 2----Depositou: 10.000000

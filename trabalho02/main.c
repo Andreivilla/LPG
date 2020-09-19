@@ -9,10 +9,10 @@ int main(int argc, char *argv[]){
     
     char c;
     char vet[20];
-    int *vetlinhas;
-    vetlinhas = calloc(100, sizeof(int));
-    int maior_movimentacao=0, conta_maior_movimentacao=0, repcontas;
-    int k = 0;    
+    //int *vetlinhas;
+    //vetlinhas = calloc(100, sizeof(int));
+    int vetlinhas[100];
+    int maior_movimentacao=0, conta_maior_movimentacao=0, repcontas;   
     FILE *f;
 
     while(escolha != '0'){
@@ -49,6 +49,10 @@ int main(int argc, char *argv[]){
             break;
             case 'c':
                 nconta = achar_conta(contas);
+                if(contas[nconta].tipo_cartao == 0){
+                    printf("Voce nao possui cartao");
+                    break;
+                }
                 while(1){
                     printf("Valor do credito usado: ");
                     scanf("%f", &valor);
@@ -131,19 +135,20 @@ int main(int argc, char *argv[]){
             printf("conta:%d ---- Saldo da conta corrente:%.2f\n", contas[i].numero_da_conta, contas[i].saldo_corrente);
     }
     //apresentar  o  cliente  com  maior  movimentação  realizada  no  período  (  débitos  + créditos).
-    
+    printf("\n-----maior movimento-----\n");
     f = fopen("movimento.txt", "r");        
+    j = 0;
     while(!feof(f)){
         c = fgetc(f);
         if(c == ' '){
-            j = 0;
+            i = 0;
             while(c != '\n'){
                 c = fgetc(f);
-                vet[j] = c;
-                j++;
+                vet[i] = c;
+                i++;
                 if(c == '-'){
-                    vetlinhas[k] = atoi(vet);
-                    k++;
+                    vetlinhas[j] = atoi(vet);
+                    j++;
                     break;
                 }                             
             }
@@ -159,10 +164,10 @@ int main(int argc, char *argv[]){
         if(repcontas > maior_movimentacao){
             maior_movimentacao = repcontas;
             conta_maior_movimentacao = contas[i].numero_da_conta;
-        }
+        } 
     }
-    printf("\nConta com maior numero de movimentacoes: %d\n", conta_maior_movimentacao);
-    printf("Numero de movimentacoes: %d\n", maior_movimentacao);
+    printf("Conta com maior numero de movimentacoes: %d\n", conta_maior_movimentacao);
+    printf("Numero de movimentacoes: %d\n", maior_movimentacao - 1);
         
     //apresentar o cliente com o maior saldo devedor no cartão de crédito.
     for(i = 0; i <num_contas; i++){

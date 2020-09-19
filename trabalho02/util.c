@@ -7,7 +7,7 @@ void ler_contas(conta *a){
         printf("Numero da conta: %d\n", a[i].numero_da_conta);
         printf("Nome do cliente: %s\n", a[i].nome_do_clinte);
         printf("Saldo da conta corrente: %f\n", a[i].saldo_corrente); 
-        printf("Tipo do cartao: %d\n", a[i].tipo_cartao);
+        printf("Tipo do cartao(0:não possui/1:cartão TIPO1/2:cartão TIPO2): %d\n", a[i].tipo_cartao);
         printf("Limite de emprestimo: %f\n", a[i].limite_emprestimo);
         printf("Saldo do cartao: %f\n", a[i].saldo_cartao);
         printf("Saldo invetimento: %f\n", a[i].saldo_ivestimento);
@@ -24,12 +24,20 @@ void modif_contas(conta *a){
         scanf("%s", a[i].nome_do_clinte);fflush(stdin);
         printf("Saldo da conta corrente: ");
         scanf("%f", &a[i].saldo_corrente);
-        printf("Tipo do cartao(0:nao possui, 1:cartao TIPO1, 2:cartao TIPO2): ");
-        scanf("%d", &a[i].tipo_cartao);
+        while(1){
+            printf("Tipo do cartao(0:nao possui, 1:cartao TIPO1, 2:cartao TIPO2): ");
+            scanf("%d", &a[i].tipo_cartao);
+            if(a[i].tipo_cartao==0 || a[i].tipo_cartao==1 || a[i].tipo_cartao==2)
+                break;
+            else
+                printf("---opicao invalida---\n");
+        }
         printf("Limite de emprestimo: ");
         scanf("%f", &a[i].limite_emprestimo);
-        printf("Saldo do cartao: ");
+        if(!(a[i].tipo_cartao==0)){
+            printf("Saldo do cartao: ");
         scanf("%f", &a[i].saldo_cartao);
+        }
         printf("Saldo invetimento: ");
         scanf("%f", &a[i].saldo_ivestimento);
     }

@@ -19,3 +19,4 @@ void registro(conta, char, float);
 void limite_estourado(conta, float);
 char menu();
 void ordena_vet(float*);
+int conta_linhas(FILE *f);
