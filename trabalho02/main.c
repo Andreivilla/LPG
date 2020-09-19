@@ -6,6 +6,14 @@ int main(int argc, char *argv[]){
     float valor;
     int nconta, i, j, conta_maior_devedor = 0;
     float vet_investimento[num_contas];
+    
+    char c;
+    char vet[20];
+    int *vetlinhas;
+    vetlinhas = calloc(100, sizeof(int));
+    int maior_movimentacao=0, conta_maior_movimentacao=0, repcontas;
+    int k = 0;    
+    FILE *f;
 
     while(escolha != '0'){
         escolha = menu();
@@ -24,7 +32,7 @@ int main(int argc, char *argv[]){
                     scanf("%f", &valor);
                     if(valor < contas[nconta].saldo_corrente){
                         contas[nconta].saldo_corrente -= valor;
-                        printf("Voce sacou %.2f\nSeu saldo e %.2f", valor, contas[nconta].saldo_corrente);
+                        printf("Voce sacou %.2f\nSeu saldo e %.2f\n", valor, contas[nconta].saldo_corrente);
                         break;
                     }else{
                         printf("O valor do saque e mt alto para seu saldo de conta\n");
@@ -37,7 +45,7 @@ int main(int argc, char *argv[]){
                 printf("Valor do deposito: ");
                 scanf("%f", &valor);
                 contas[nconta].saldo_corrente += valor;
-                printf("Voce depositou %f\nSeu saldo e: %f", valor, contas[nconta].saldo_corrente);
+                printf("Voce depositou %f\nSeu saldo e: %f\n", valor, contas[nconta].saldo_corrente);
             break;
             case 'c':
                 nconta = achar_conta(contas);
@@ -66,7 +74,7 @@ int main(int argc, char *argv[]){
                         printf("Seu saldo da conta corrente e insuficiente\n");
                     }else{
                         contas[nconta].saldo_corrente -= valor;
-                        printf("Voce investiu %f\nSeu saldo e %f", valor, contas[nconta].saldo_corrente);
+                        printf("Voce investiu %f\nSeu saldo e %f\n", valor, contas[nconta].saldo_corrente);
                         break;
                     }            
                 }
@@ -90,7 +98,7 @@ int main(int argc, char *argv[]){
                 }
             break;
             case '0':
-                printf("--------Fechando sistema--------\n");
+                printf("\n--------Fechando sistema--------\n");
             break;
         }
         if(escolha != 1 && escolha != 2)        
@@ -104,7 +112,7 @@ int main(int argc, char *argv[]){
         ordena_vet(vet_investimento);
     }
     ordena_vet(vet_investimento);
-    printf("-----Relacao dos maiores investimentos-----\n");
+    printf("\n-----Relacao dos maiores investimentos-----\n");
     for(i=0; i<num_contas; i++){
         for(j=0; j<num_contas; j++){
             if(vet_investimento[i] == contas[j].saldo_ivestimento)
@@ -122,13 +130,51 @@ int main(int argc, char *argv[]){
         if(contas[i].saldo_corrente < 0)
             printf("conta:%d ---- Saldo da conta corrente:%.2f\n", contas[i].numero_da_conta, contas[i].saldo_corrente);
     }
+    //apresentar  o  cliente  com  maior  movimentação  realizada  no  período  (  débitos  + créditos).
+    
+    f = fopen("movimento.txt", "r");        
+    while(!feof(f)){
+        c = fgetc(f);
+        if(c == ' '){
+            j = 0;
+            while(c != '\n'){
+                c = fgetc(f);
+                vet[j] = c;
+                j++;
+                if(c == '-'){
+                    vetlinhas[k] = atoi(vet);
+                    k++;
+                    break;
+                }                             
+            }
+        }
+    }   
+    fclose(f);
+    for(i=0; i<num_contas; i++){
+        repcontas=0;
+        for(j=0; j<100; j++){
+            if(contas[i].numero_da_conta == vetlinhas[j])
+                repcontas++;
+        }
+        if(repcontas > maior_movimentacao){
+            maior_movimentacao = repcontas;
+            conta_maior_movimentacao = contas[i].numero_da_conta;
+        }
+    }
+    printf("\nConta com maior numero de movimentacoes: %d\n", conta_maior_movimentacao);
+    printf("Numero de movimentacoes: %d\n", maior_movimentacao);
+        
     //apresentar o cliente com o maior saldo devedor no cartão de crédito.
-    for (i = 0; i <num_contas; i++){
+    for(i = 0; i <num_contas; i++){
         if(contas[i].saldo_cartao < contas[conta_maior_devedor].saldo_cartao)
             conta_maior_devedor = i;
     }
-    printf("Maior saldo negativo do cartao: \n");
-    printf("Conta: %d ---- Saldo: %2.f", contas[i].numero_da_conta, contas[i].saldo_cartao);
+    printf("\nMaior saldo negativo do cartao: \n");
+    printf("Conta: %d ---- Saldo: %2.f\n", contas[i].numero_da_conta, contas[i].saldo_cartao);
+    
+    
+
+    
     
     return 0;
 }

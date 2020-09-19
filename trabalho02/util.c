@@ -63,19 +63,19 @@ void registro(conta a, char tipo, float valor){
     FILE *f = fopen("movimento.txt", "a");
     switch (tipo){
         case 's':        
-            fprintf(f,"Conta: %d ---- Sacou: %f\n", a.numero_da_conta, valor);
+            fprintf(f,"Conta: %d----Sacou: %f\n", a.numero_da_conta, valor);
         break;
         case 'd':
-            fprintf(f,"Conta: %d ---- Depositou: %f\n", a.numero_da_conta, valor);
+            fprintf(f,"Conta: %d----Depositou: %f\n", a.numero_da_conta, valor);
         break;
         case 'c':
-            fprintf(f,"Conta: %d ---- Usou credito: %f\n", a.numero_da_conta, valor);
+            fprintf(f,"Conta: %d----Usou credito: %f\n", a.numero_da_conta, valor);
         break;
         case 'i':
-            fprintf(f,"Conta: %d ---- Investiu: %f\n", a.numero_da_conta, valor);
+            fprintf(f,"Conta: %d----Investiu: %f\n", a.numero_da_conta, valor);
         break;
         case 'e':
-            fprintf(f,"Conta: %d ---- Emprestou: %f\n", a.numero_da_conta, valor);
+            fprintf(f,"Conta: %d----Emprestou: %f\n", a.numero_da_conta, valor);
         break;
     }
     fclose(f);
@@ -89,7 +89,7 @@ char menu(){
     char c;
     char *opicoes = "012sSdDcCiIeE";
     int i;
-    printf("-------- Menu --------\n");
+    printf("\n-------- Menu --------\n");
     printf("0- Fechar programa\n");
     printf("1- Modificar todas as contas\n");
     printf("2- listar todas as contas\n");
@@ -100,12 +100,13 @@ char menu(){
     printf("e- pedir emprestimo\n");
     printf("Oque voce deseja fzr:\n");
     while(1){
-        scanf("%c", &c);fflush(stdin);
+        fflush(stdin);
+        scanf("%c", &c);
         for (i=0; i<13; i++){
             if(opicoes[i] == c)
                 return tolower(c);
         }
-        printf("Opicao invalida\n");
+        printf("Opicao invalida\n"); fflush(stdin);
     }
 }
 void ordena_vet(float *a){
