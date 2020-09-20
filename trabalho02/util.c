@@ -1,6 +1,6 @@
 #include"util.h"
-#define num_contas 2
-void ler_contas(conta *a){
+//#define num_contas 2
+void ler_contas(conta *a){//lista todas as contas armazenadas no sistema
     int i;
     for(i=0; i<num_contas; i++){
         printf("\n-----Conta %d: -----\n", i);
@@ -14,7 +14,7 @@ void ler_contas(conta *a){
     } 
 
 }
-void modif_contas(conta *a){
+void modif_contas(conta *a){//abre um painel para modidficar todas as contas
     int i;
     for(i=0; i<num_contas; i++){
         printf("\n-----Conta %d: -----\n", i);
@@ -42,19 +42,19 @@ void modif_contas(conta *a){
         scanf("%f", &a[i].saldo_ivestimento);
     }
 }
-void descarregar(conta *a){
+void descarregar(conta *a){//descarrega as strucs do .bin
     FILE *file = fopen("contas.bin", "rb");
     fread(a, sizeof(conta), num_contas, file);
     fclose(file);
 }
-void carregar(conta *a){
+void carregar(conta *a){//carrega as structs no .bin
     int i;
     FILE *file = fopen("contas.bin", "wb");
     for(i=0; i<num_contas; i++)
         fwrite(&a[i], sizeof(conta), 1, file);
     fclose(file);
 }
-int achar_conta(conta *a){
+int achar_conta(conta *a){//verifica se valor digitado é o numero de uma conta e retorna para main o endereço do vetor da conta
     int i;
     int nconta;
     while(1){
@@ -67,7 +67,7 @@ int achar_conta(conta *a){
         printf("-Numero de conta invalido-\n");       
     }
 }
-void registro(conta a, char tipo, float valor){
+void registro(conta a, char tipo, float valor){//regitra no arquivo registro.txt (conta a ser registrada, tipo do registro, valor do registro)
     FILE *f = fopen("movimento.txt", "a");
     switch (tipo){
         case 's':        
@@ -88,12 +88,12 @@ void registro(conta a, char tipo, float valor){
     }
     fclose(f);
 }
-void limite_estourado(conta a, float v){
+void limite_estourado(conta a, float v){//faz o registro do limite estourado
     FILE *f = fopen("limite_estourado.txt", "a");
     printf("Limite estourado em %f\n", (v - a.limite_emprestimo));
     fprintf(f,"Conta: %d ---- limite estourado em: %f\n", a.numero_da_conta, (v - a.limite_emprestimo));
 }
-char menu(){
+char menu(){//gera o menu e retorna a opicao do jogador
     char c;
     char *opicoes = "012sSdDcCiIeE";
     int i;
@@ -117,7 +117,7 @@ char menu(){
         printf("Opicao invalida\n"); fflush(stdin);
     }
 }
-void ordena_vet(float *a){
+void ordena_vet(float *a){//ordena um vetor
     int i,j;
     float h;
     for(i=0; i<num_contas; i++){

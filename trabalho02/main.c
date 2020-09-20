@@ -1,5 +1,5 @@
 #include"util.h"
-#define num_contas 2
+// /#define num_contas 2
 int main(int argc, char *argv[]){
     conta contas[num_contas];
     char escolha;
@@ -9,8 +9,6 @@ int main(int argc, char *argv[]){
     
     char c;
     char vet[20];
-    //int *vetlinhas;
-    //vetlinhas = calloc(100, sizeof(int));
     int vetlinhas[100];
     int maior_movimentacao=0, conta_maior_movimentacao=0, repcontas;   
     FILE *f;
@@ -176,10 +174,6 @@ int main(int argc, char *argv[]){
     }
     printf("\nMaior saldo negativo do cartao: \n");
     printf("Conta: %d ---- Saldo: %2.f\n", contas[i].numero_da_conta, contas[i].saldo_cartao);
-    
-    
 
-    
-    
     return 0;
 }

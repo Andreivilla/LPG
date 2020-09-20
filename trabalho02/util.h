@@ -1,6 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<ctype.h>
+
+#define num_contas 2
 typedef struct{
     int numero_da_conta;
     char nome_do_clinte[10];
