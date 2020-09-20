@@ -1,5 +1,4 @@
 #include"util.h"
-// /#define num_contas 2
 int main(int argc, char *argv[]){
     conta contas[num_contas];
     char escolha;
@@ -54,15 +53,16 @@ int main(int argc, char *argv[]){
                 while(1){
                     printf("Valor do credito usado: ");
                     scanf("%f", &valor);
+                    
                     if(valor > contas[nconta].saldo_cartao){
-                        printf("Seu saldo é insuficiente\n");
-                        printf("Seu saldo é: %.2f\n", contas[nconta].saldo_cartao);
-                    }else{
-                        contas[nconta].saldo_cartao -= valor;
-                        printf("Vc usou: %.2f\n", valor);
-                        printf("Seu saldo decredito e: %.2f\n", contas[nconta].saldo_cartao);
-                        break;
-                    }
+                        printf("---Seu limite estorurou---\n");
+                        limite_estourado_cartao(contas[nconta], valor);
+                    } 
+                    contas[nconta].saldo_cartao -= valor;
+                    printf("Vc usou: %.2f\n", valor);
+                    printf("Seu saldo decredito e: %.2f\n", contas[nconta].saldo_cartao);
+                    
+                    break;                    
                 }
             break;
             case 'i':
@@ -72,7 +72,7 @@ int main(int argc, char *argv[]){
                     printf("Seu saldo da conta corrente e: %.2f\n", contas[nconta].saldo_corrente);
                         printf("Quanto deseja investir: ");
                     scanf("%f", &valor);
-                    if(valor > contas[nconta].numero_da_conta){
+                    if(valor > contas[nconta].saldo_corrente){
                         printf("Seu saldo da conta corrente e insuficiente\n");
                     }else{
                         contas[nconta].saldo_corrente -= valor;
@@ -89,7 +89,7 @@ int main(int argc, char *argv[]){
                     printf("Quanto deseja emprestar: ");
                     scanf("%f", &valor);
                     if(valor > contas[nconta].limite_emprestimo){
-                        limite_estourado(contas[nconta], valor);
+                        limite_estourado_emprestimo(contas[nconta], valor);
                     }
                     contas[nconta].limite_emprestimo -= valor;
                     contas[nconta].saldo_corrente += valor;

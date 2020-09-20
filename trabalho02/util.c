@@ -1,5 +1,4 @@
 #include"util.h"
-//#define num_contas 2
 void ler_contas(conta *a){//lista todas as contas armazenadas no sistema
     int i;
     for(i=0; i<num_contas; i++){
@@ -7,7 +6,7 @@ void ler_contas(conta *a){//lista todas as contas armazenadas no sistema
         printf("Numero da conta: %d\n", a[i].numero_da_conta);
         printf("Nome do cliente: %s\n", a[i].nome_do_clinte);
         printf("Saldo da conta corrente: %f\n", a[i].saldo_corrente); 
-        printf("Tipo do cartao(0:não possui/1:cartão TIPO1/2:cartão TIPO2): %d\n", a[i].tipo_cartao);
+        printf("Tipo do cartao: %d\n", a[i].tipo_cartao);
         printf("Limite de emprestimo: %f\n", a[i].limite_emprestimo);
         printf("Saldo do cartao: %f\n", a[i].saldo_cartao);
         printf("Saldo invetimento: %f\n", a[i].saldo_ivestimento);
@@ -88,10 +87,15 @@ void registro(conta a, char tipo, float valor){//regitra no arquivo registro.txt
     }
     fclose(f);
 }
-void limite_estourado(conta a, float v){//faz o registro do limite estourado
+void limite_estourado_emprestimo(conta a, float v){//faz o registro do limite de emprestimo estourado
     FILE *f = fopen("limite_estourado.txt", "a");
-    printf("Limite estourado em %f\n", (v - a.limite_emprestimo));
-    fprintf(f,"Conta: %d ---- limite estourado em: %f\n", a.numero_da_conta, (v - a.limite_emprestimo));
+    printf("Limite de emprestimo estourado em %f\n", (v - a.limite_emprestimo));
+    fprintf(f,"Conta: %d ---- limite emprestimo estourado em: %f\n", a.numero_da_conta, (v - a.limite_emprestimo));
+}
+void limite_estourado_cartao(conta a, float v){//faz o registro do limite do cartao estourado
+    FILE *f = fopen("limite_estourado.txt", "a");
+    printf("Limite do cartao estourado em %f\n", (v - a.saldo_cartao));
+    fprintf(f,"Conta: %d ---- limite cartao estourado em: %f\n", a.numero_da_conta, (v - a.saldo_cartao));
 }
 char menu(){//gera o menu e retorna a opicao do jogador
     char c;
