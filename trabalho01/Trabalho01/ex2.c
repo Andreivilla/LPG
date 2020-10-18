@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
     
     func(&matriz[0][0]);//aplica a funcao na matriz
 
-    printf("\n------Matriz depois da fucao------\n");
+    printf("\n------Matriz depois da funcao------\n");
     for(i=0; i<linha; i++){//imprime matriz dps de aplicar a funcao
         for (j=0; j<coluna; j++){
             printf("%d   ", matriz[i][j]);
@@ -45,7 +45,7 @@ void func(int *ptr){
 
             if(*(ptr+i+coluna) == 0 && i+coluna < coluna*linha){//verifica se o item de baixo && igual zero e se nao esta na ultima linha
                 if(i >= coluna){//apenas verifica se possuio itens listados acima do prt+i
-                    vc = verifica_coluna((ptr+i));//verrifica td a coluna anterior
+                    vc = verifica_coluna((ptr+i));//verifica td a coluna anterior
                 }else{
                     vc = 0;
                 }

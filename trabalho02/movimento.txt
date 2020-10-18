@@ -1,12 +1,6 @@
-Conta: 1----Sacou: 653.000000
-Conta: 1----Sacou: 10.000000
-Conta: 1----Depositou: 3000.000000
-Conta: 2----Usou credito: 3000.000000
-Conta: 2----Usou credito: 0.000000
-Conta: 1----Usou credito: 156.000000
-Conta: 1----Usou credito: 25.000000
-Conta: 1----Investiu: 0.000000
-Conta: 1----Investiu: 0.000000
-Conta: 1----Investiu: 256.000000
-Conta: 1----Emprestou: 1235.000000
-Conta: 1----Usou credito: 1000.000000
+Conta: 2----Emprestou: 3000.000000
+Conta: 1----Sacou: 500.000000
+Conta: 2----Depositou: 800.000000
+Conta: 1----Usou credito: 1200.000000
+Conta: 1----Investiu: 400.000000
+Conta: 1----Investiu: 500.000000

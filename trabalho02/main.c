@@ -107,7 +107,7 @@ int main(int argc, char *argv[]){
             registro(contas[nconta], escolha, valor);
         carregar(contas);
     }
-    //apresentar o(s)cliente(s) que possuemo maior volume de investimento no banco;
+    //apresentar o(s)cliente(s) que possuem o maior volume de investimento no banco;
     descarregar(contas);
     for(i=0; i<num_contas; i++){
         vet_investimento[i] = contas[i].saldo_ivestimento;

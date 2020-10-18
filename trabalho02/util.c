@@ -29,7 +29,7 @@ void modif_contas(conta *a){//abre um painel para modidficar todas as contas
             if(a[i].tipo_cartao==0 || a[i].tipo_cartao==1 || a[i].tipo_cartao==2)
                 break;
             else
-                printf("---opicao invalida---\n");
+                printf("---opcao invalida---\n");
         }
         printf("Limite de emprestimo: ");
         scanf("%f", &a[i].limite_emprestimo);
@@ -97,9 +97,9 @@ void limite_estourado_cartao(conta a, float v){//faz o registro do limite do car
     printf("Limite do cartao estourado em %f\n", (v - a.saldo_cartao));
     fprintf(f,"Conta: %d ---- limite cartao estourado em: %f\n", a.numero_da_conta, (v - a.saldo_cartao));
 }
-char menu(){//gera o menu e retorna a opicao do jogador
+char menu(){//gera o menu e retorna a opcao do jogador
     char c;
-    char *opicoes = "012sSdDcCiIeE";
+    char *opcoes = "012sSdDcCiIeE";
     int i;
     printf("\n-------- Menu --------\n");
     printf("0- Fechar programa\n");
@@ -115,10 +115,10 @@ char menu(){//gera o menu e retorna a opicao do jogador
         fflush(stdin);
         scanf("%c", &c);
         for (i=0; i<13; i++){
-            if(opicoes[i] == c)
+            if(opcoes[i] == c)
                 return tolower(c);
         }
-        printf("Opicao invalida\n"); fflush(stdin);
+        printf("Opcao invalida\n"); fflush(stdin);
     }
 }
 void ordena_vet(float *a){//ordena um vetor
